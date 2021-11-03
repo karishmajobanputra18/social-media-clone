@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In</title>
+</head>
+<body>
+    <h1>Log in</h1>
+    <a href="/index.html">Home</a>
+
+    <form id="form">
+        <!-- TODO: Add username address input -->
+        <label for="username">Username</label>
+        <input id="username" type="text" name="username" autofocus>
+        
+        <!-- TODO: Add password address input -->
+        <label for="password">Password</label>
+        <input id="password" type="text" name="password" autofocus>
+        <!-- TODO: Add submit button -->
+        <input type="submit" value="Submit"/>
+    </form>
+
+    <script>
+
+//makes request for api in index.js
+    // function callApi(url, data) {
+	// 	//let url="/api/LogIn"
+	// 	return fetch(url).then(response => response.json());
+	// }
+    // callApi('api/LogIn').then((response) => {
+	// 		console.log('got response', response)
+			 
+ 	// 	})
+    // function callApi(url){
+    //     let options ={
+    //         method:"POST"
+    //     }
+    // return fetch(url , options).then(
+    //     response => response.json
+    // )
+    // }
+
+
+    // 	// Get form from document
+	//let form = document.querySelector("form");
+	// let username = document.querySelector("username");
+	// let password = document.querySelector("password");
+
+    function callApi(url, data) {
+    let options = {
+        method: "POST",
+        body: data
+    }
+
+    return fetch(url, options).then(
+        response => response.json()
+    )
+    }   
+
+
+	// Add submit event listener to Stop the submit button sending the form
+	form.addEventListener("submit",(event) => {
+		event.preventDefault();
+		
+    
+// url should include a query string, i.e. '?q=query'
+    function apiGetRequest(url) {
+        return fetch(url).then(
+        response => response.json()
+        )
+        }
+    // Get the form element object from the from DOM
+		let form = document.getElementById('form');
+
+        // Get the data contained in the form
+        let data = new FormData(form)
+
+        // Append it to the URL as a
+        //let url = '/api/end-point?' + new URLSearchParams(data)
+
+        // apiGetRequest(url, data).then(response => {
+        //  console.log('Got response:', response)
+        // })
+
+		callApi('/api/LogIn').then((response) => {
+			console.log('got response', response);
+			 
+ 		});
+	});
+
+   
+
+
+        /*
+            TODO: Stop the submit button sending the form
+            TODO: Capture the input values using FormData
+            TODO: Send the data to the login API /api/login
+            TODO: Check the login is correct agains some hard-coded values, e.g. username="test@test.com", password="password"
+         */
+    </script>
+</body>
+</html>
