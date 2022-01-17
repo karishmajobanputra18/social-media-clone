@@ -1,0 +1,115 @@
+<DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width,initial-scale=1.0">
+            <title>Posts</title>
+        </head>
+        <body>
+            <h1>Posts</h1>
+            <form id=AddPost>
+                <div>
+                    <input id="title" placeholder="Title" required>
+                </div>
+                <div>
+                    <input id="postContent" placeholder="text" required>
+                    <textarea rows="5"></textarea>
+                </div>
+                <div>
+                    <input id="submitPost" type="submit" value="submitPost">
+                </div>
+            </form>
+        </body>
+
+        <script>
+            // function hideLoader() {
+            //     document.getElementsByClassName('loader')[0].classList.add('hidden');
+            // }
+        
+            function showForm() {
+                document.getElementById('submitPost').classList.remove('hidden')
+            }
+        
+            function updateForm(form, data) {
+                form.elements['body'].value = data.body
+                form.elements['content'].value = data.content
+            }
+        
+            function loadPost(postId, callback) {
+                fetch('/api/posts/' + postId, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-API-Token": getApiToken()
+                    },
+                    method: "GET"
+                })
+                .then(result => {
+                    if (result.status == 200) {
+                        callback(result)
+                    }
+                    else {
+                        // TODO: Handle error
+                        console.log(result)
+                    }
+                })
+                .catch(error => {
+                    console.log(error)
+                    // TODO: Handle error
+                })
+            }
+        
+            function formSubmitHandler(form) {
+                // TODO: Finish this part - submit post via API
+                fetch('api/posts/' + postId, {
+                    method: "PUT",                  // <-- The key part here is the PUT method
+                    headers: { /* ... */ }
+                })
+        
+                // TODO: Redirect to home page when done
+                console.log(form);
+            }
+        
+            function getApiToken() {
+                return window.sessionStorage.getItem('token')
+            }
+        
+            // function loaded() {
+            //     let apiToken = getApiToken()
+        
+                document.getElementById('editPost').addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    formSubmitHandler(event.target);
+                })
+        
+                console.log(apiToken);
+        
+                if (!apiToken) {
+                    // window.location = '/login.html'
+                }
+                else {
+                    // Get the 'id' URL query parameter
+                    let postId = new URLSearchParams(window.location.search).get('id')
+        
+                    if (!postId) {
+                        // TODO: No post ID provided, show 404 page
+                        console.log('page not found');
+                    }
+                    else {
+                        loadPost(postId, function(result) {
+                            if (result) {
+                                updateForm(document.getElementById('editPost', result))
+                            }
+                            else {
+                                // TODO: Post not found, show 404 page
+                                console.log('page not found');
+                            }
+                        });
+                    }
+                }
+            
+        
+            //document.addEventListener('DOMContentLoaded', loaded);
+        </script>
+        
+        </html>
+    </html>

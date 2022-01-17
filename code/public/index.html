@@ -4,11 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home page</title>
-</head>
+</head> 
+
 
 <body>
     <h1>Home page</h1>
-    <a href="/login.html">Login</a>
+    <a id="login" class="hidden" href="/login.html" onclick="login()">Login</a>
+    <a id="logout" class="hidden" onclick="logout()" ><!--logout() will initiate the logout() function below--> </a> href="#">Log out</a>
+    
 </body>
+<script>
+    function logout(){
+        window.sessionStorage.removeItem('token');
+        window.location ='/';
+    }
+    document.addEventListener('DOMContentLoaded',(event)=>{
+        let userloggedin =window.sessionStorage.getItem('token')
+        let body = document.getElementsByTagName('body')[0];
+    
+        if(userloggedin){
+            text= 'Welcome'+ sessionStorage.getItem('username')
+            document.getElementById('logout').classList.remove('hidden')
+        }
+        else{
+            text='You are logged out'
+            document.getElementById('login').classList.remove('hidden')
+    }
+    body.insertAdjacentHTML('beforeend', text);
+    })
+    
 
+</script>
 </html>
